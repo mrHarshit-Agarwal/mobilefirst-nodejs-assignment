@@ -1,0 +1,196 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD API Frontend</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    form {
+      margin-bottom: 10px;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+
+    .success {
+      color: green;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CRUD API Frontend</h1>
+
+  <div id="signup">
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+      <label for="signup-username">Username:</label>
+      <input type="text" id="signup-username" required><br>
+
+      <label for="signup-password">Password:</label>
+      <input type="password" id="signup-password" required><br>
+
+      <label for="signup-qualification">Qualification:</label>
+      <input type="text" id="signup-qualification"><br>
+
+      <label for="signup-city">City:</label>
+      <input type="text" id="signup-city"><br>
+
+      <label for="signup-phone">Phone Number:</label>
+      <input type="text" id="signup-phone"><br>
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <div id="signup-message"></div>
+  </div>
+
+  <div id="login">
+    <h2>Login</h2>
+    <form id="login-form">
+      <label for="login-username">Username:</label>
+      <input type="text" id="login-username" required><br>
+
+      <label for="login-password">Password:</label>
+      <input type="password" id="login-password" required><br>
+
+      <button type="submit">Login</button>
+    </form>
+    <div id="login-message"></div>
+  </div>
+
+  <div id="home">
+    <h2>Home</h2>
+    <div id="home-content"></div>
+    <button id="logout-button">Logout</button>
+    <div id="home-message"></div>
+  </div>
+
+  <script>
+    const baseUrl = 'http://localhost:3000'; // Change this if your API is running on a different URL
+
+    // Sign up form submission
+    const signupForm = document.getElementById('signup-form');
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('signup-username').value;
+      const password = document.getElementById('signup-password').value;
+      const qualification = document.getElementById('signup-qualification').value;
+      const city = document.getElementById('signup-city').value;
+      const phone = document.getElementById('signup-phone').value;
+
+      const response = await fetch(`${baseUrl}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password, qualification, city, phoneNumber: phone }),
+      });
+
+      const data = await response.json();
+
+      const signupMessage = document.getElementById('signup-message');
+      if (response.ok) {
+        signupMessage.innerHTML = `<div class="success">${data.message}</div>`;
+      } else {
+        signupMessage.innerHTML = `<div class="error">${data.message}</div>`;
+      }
+    });
+
+    // Login form submission
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener = ('submit',  async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      const response = await fetch(`${baseUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      const loginMessage = document.getElementById('login-message');
+      if (response.ok) {
+        loginMessage.innerHTML = `<div class="success">Logged in successfully!</div>`;
+        localStorage.setItem('token', data.token);
+        showHomePage();
+      } else {
+        loginMessage.innerHTML = `<div class="error">${data.message}</div>`;
+      }
+    });
+
+    // Logout button click
+    const logoutButton = document.getElementById('logout-button');
+    logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      showSignupAndLogin();
+    });
+
+    // Show the signup and login sections
+    const showSignupAndLogin = () => {
+      document.getElementById('signup').style.display = 'block';
+      document.getElementById('login').style.display = 'block';
+      document.getElementById('home').style.display = 'none';
+    };
+
+    // Show the home section
+    const showHomePage = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        showSignupAndLogin();
+        return;
+      }
+
+      document.getElementById('signup').style.display = 'none';
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('home').style.display = 'block';
+
+      // Fetch home page data
+      const response = await fetch(`${baseUrl}/home`, {
+        headers: {
+          'Authorization': token,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const homeContent = document.getElementById('home-content');
+        homeContent.innerHTML = '';
+
+        if (data.length > 0) {
+          data.forEach((image) => {
+            const img = document.createElement('img');
+            img.src = image.filename;
+            homeContent.appendChild(img);
+          });
+        } else {
+          homeContent.innerHTML = 'No images available.';
+        }
+      } else {
+        const homeMessage = document.getElementById('home-message');
+        homeMessage.innerHTML = `<div class="error">Access denied. Please log in again.</div>`;
+        showSignupAndLogin();
+      }
+    };
+
+    // Check if user is already logged in
+    const token = localStorage.getItem('token');
+    if (token) {
+      showHomePage();
+    } else {
+      showSignupAndLogin();
+    }
+  </script>
+</body>
+</html> -->
